@@ -1,8 +1,11 @@
-import { ElectronAPI } from '@electron-toolkit/preload'
-import { NoteInfo } from '../types/index'
+export interface IElectronAPI {
+  locale: string
+  getNotes: GetNote
+  readNote: ReadNote
+}
+
 declare global {
   interface Window {
-    electron: ElectronAPI
-    getNote: NoteInfo[]
+    electronAPI: IElectronAPI
   }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { notesAtom, selectedNoteIndexAtom } from '@renderer/sotre'
+
+import { notesAtom, selectedNoteIndexAtom } from '@renderer/store'
 import { useAtom, useAtomValue } from 'jotai'
 
 export const useNote = () => {

@@ -1,3 +1,4 @@
+import ActionBtn from './components/action-btn'
 import DraggableBar from './components/draggable-bar'
 import MDXEditor from './components/mdx-editor'
 import { NoteList } from './components/note-list'
@@ -10,7 +11,7 @@ function App(): JSX.Element {
       <DraggableBar />
       <main className="flex flex-row h-screen">
         <Sidebar className="p-4">
-          {/* <ActionBtn /> */}
+          <ActionBtn />
 
           <NoteList />
         </Sidebar>

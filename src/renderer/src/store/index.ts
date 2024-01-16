@@ -4,7 +4,7 @@ import { unwrap } from 'jotai/utils'
 export const getLoaderNotes = async () => {
   const notes = await window.electronAPI.getNotes()
 
-  return notes.sort((a, b) => b.lastEdit - a.lastEdit)
+  return notes.sort((a, b) => b.lastEditTime - a.lastEditTime)
 }
 
 const notesAtomAsync = atom(getLoaderNotes())
@@ -28,18 +28,26 @@ const selectedNoteAtomAsync = atom(async (get) => {
   }
 })
 
-export const saveNoteAtom = atom(null, async (get, set, newContent) => {
+export const saveNoteAtom = atom(null, async (get, set, newContent: string) => {
+  const notes = get(notesAtom)
   const selectedNote = get(selectedNoteAtom)
-  if (!selectedNote) return
+
+  if (!selectedNote || !notes) return
+
   await window.electronAPI.saveNote(selectedNote.title, newContent)
 
-  set(selectedNote, {
-    ...selectedNote,
-    content: newContent,
-    lastEdit: new Date.now()
-  })
+  set(notesAtom, async (prevNotes) =>
+    (await prevNotes).map((note) => {
+      if (note.title === selectedNote.title) {
+        return {
+          ...note,
+          lastEditTime: Date.now()
+        }
+      }
+      return note
+    })
+  )
 })
-
 export const createNewNote = atom(null, async (get, set) => {
   //  get alll notes to order
   const notes = get(notesAtom)
@@ -47,21 +55,38 @@ export const createNewNote = atom(null, async (get, set) => {
   if (!notes) return
 
   const titleNote = await window.electronAPI.createNote()
-
+  if (!titleNote) return
   const newNote = {
     title: titleNote,
-    lastEdit: new Date.now()
+    lastEditTime: Date.now()
   }
+  const updatedNotes = [newNote, ...notes.filter((note) => note.title !== newNote.title)]
+  set(notesAtom, Promise.resolve(updatedNotes))
 
-  set(notesAtom, [newNote, ...notes.filter((note) => note.title !== newNote.title)])
   set(selectedNoteIndexAtom, 0)
 })
+
+export const deleteAtomNote = atom(null, async (get, set, filename: string) => {
+  const notes = get(notesAtom)
+
+  if (!notes) return
+
+  const isDeleted = await window.electronAPI.deleteNote(filename)
+
+  if (!isDeleted) return
+  set(notesAtom, async (prevNotes) => {
+    return (await prevNotes).filter((note) => note.title !== filename)
+  })
+
+  set(selectedNoteIndexAtom, null)
+})
+
 export const selectedNoteAtom = unwrap(
   selectedNoteAtomAsync,
   (prev) =>
     prev ?? {
       title: '',
       content: '',
-      lastEdit: new Date()
+      lastEditTime: Date.now()
     }
 )

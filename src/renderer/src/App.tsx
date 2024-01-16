@@ -10,9 +10,8 @@ function App(): JSX.Element {
     <>
       <DraggableBar />
       <main className="flex flex-row h-screen">
-        <Sidebar className="p-4">
+        <Sidebar className="p-4 ">
           <ActionBtn />
-
           <NoteList />
         </Sidebar>
         <section className="flex-1 p-4 border-l border-white/20  overflow-y-auto overflow-hidden scrollbar">

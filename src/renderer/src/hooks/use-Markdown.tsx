@@ -1,11 +1,12 @@
 import { saveNoteAtom } from '@renderer/store'
-import type { NoteInfoType } from '../../../types/index'
+import { NoteInfoType } from '@shared/types'
+
 import { useSetAtom } from 'jotai'
 
-export const useMarkdown = ({ selectedNote }: { selectedNote: NoteInfoType }) => {
+export const useMarkdown = ({ selectedNote }: { selectedNote: NoteInfoType | null }) => {
   const saveNote = useSetAtom(saveNoteAtom)
 
-  const autoSaving = async (content: NoteInfoType) => {
+  const autoSaving = async (content: string) => {
     if (!selectedNote) return
     await saveNote(content)
   }

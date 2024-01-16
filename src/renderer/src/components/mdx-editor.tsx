@@ -18,7 +18,7 @@ export default function MDXEditor() {
 
   return (
     <MarkdownEditor
-      key={selectedNote.lastEdit + selectedNote?.title}
+      key={selectedNote?.title}
       plugins={[headingsPlugin(), listsPlugin(), quotePlugin(), markdownShortcutPlugin()]}
       markdown={selectedNote?.content}
       onChange={autoSaving}

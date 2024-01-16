@@ -1,4 +1,4 @@
-import { CreateNote, DeleteNote, GetNote, ReadNote, SaveNote } from '../shared/types'
+import { CreateNote, DeleteNote, EditNote, GetNote, ReadNote, SaveNote } from '../shared/types'
 
 export interface IElectronAPI {
   locale: string
@@ -7,6 +7,7 @@ export interface IElectronAPI {
   createNote: CreateNote
   saveNote: SaveNote
   deleteNote: DeleteNote
+  editNote: EditNote
 }
 
 declare global {

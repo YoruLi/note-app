@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { CreateNote, DeleteNote, GetNote, ReadNote, SaveNote } from '../shared/types'
+import { CreateNote, DeleteNote, EditNote, GetNote, ReadNote, SaveNote } from '../shared/types'
 
 if (!process.contextIsolated) {
   throw new Error('contextIsolated must be enabled.')
@@ -12,7 +12,8 @@ try {
     readNote: (...args: Parameters<ReadNote>) => ipcRenderer.invoke('readNote', ...args),
     saveNote: (...args: Parameters<SaveNote>) => ipcRenderer.invoke('saveNote', ...args),
     createNote: (...args: Parameters<CreateNote>) => ipcRenderer.invoke('createNote', ...args),
-    deleteNote: (...args: Parameters<DeleteNote>) => ipcRenderer.invoke('deleteNote', ...args)
+    deleteNote: (...args: Parameters<DeleteNote>) => ipcRenderer.invoke('deleteNote', ...args),
+    editNote: (...args: Parameters<EditNote>) => ipcRenderer.invoke('editNote', ...args)
   })
 } catch (error) {
   console.error(error)

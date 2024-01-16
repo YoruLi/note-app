@@ -2,8 +2,8 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { createNote, deleteNote, getNotes, readNote, writeNote } from './lib/index'
-import { DeleteNote, GetNote, ReadNote, SaveNote } from '../shared/types'
+import { createNote, deleteNote, editNote, getNotes, readNote, writeNote } from '@/lib'
+import { DeleteNote, EditNote, GetNote, ReadNote, SaveNote } from '@shared/types'
 
 function createWindow(): void {
   // Create the browser window.
@@ -13,8 +13,8 @@ function createWindow(): void {
     show: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     center: true,
-    // frame: false,
-    // autoHideMenuBar: true,
+    frame: false,
+    autoHideMenuBar: true,
     title: 'Note app',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -57,6 +57,7 @@ app.whenReady().then(() => {
   ipcMain.handle('createNote', () => createNote())
   ipcMain.handle('saveNote', (_, ...args: Parameters<SaveNote>) => writeNote(...args))
   ipcMain.handle('deleteNote', (_, ...args: Parameters<DeleteNote>) => deleteNote(...args))
+  ipcMain.handle('editNote', (_, ...args: Parameters<EditNote>) => editNote(...args))
 
   createWindow()
 

@@ -1,6 +1,6 @@
 import { dialog } from 'electron'
 
-import { ensureDir, readdir, stat, readFile, writeFile, remove } from 'fs-extra'
+import { ensureDir, readdir, stat, readFile, writeFile, remove, rename } from 'fs-extra'
 import path from 'path'
 import welcomeFile from '../../../resources/welcome.md?asset'
 import { NoteInfoType } from '../../shared/types'
@@ -64,6 +64,12 @@ export const createNote = async () => {
   return name
 }
 
+export const editNote = async (oldFilname: string, newFilename: string) => {
+  const cwd = getDir()
+  await rename(`${cwd}/${oldFilname}.md`, `${cwd}/${newFilename}.md`)
+
+  return newFilename
+}
 export const deleteNote = async (filename: string) => {
   const cwd = getDir()
 

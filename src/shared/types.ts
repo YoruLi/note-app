@@ -3,6 +3,7 @@ export type ReadNote = (title: NoteInfo['title']) => Promise<NoteInfo['title']>
 export type CreateNote = () => Promise<NoteInfo['title']>
 export type SaveNote = (filename: string, content: string) => void
 export type DeleteNote = (filename: string) => boolean
+export type EditNote = (oldFilname: string, newFilename: string) => string
 
 type NoteInfo = {
   title: string

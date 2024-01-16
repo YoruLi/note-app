@@ -4,7 +4,13 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    resolve: {
+      alias: {
+        '@/lib': resolve('src/main/lib'),
+        '@shared': resolve('src/shared')
+      }
+    }
   },
   preload: {
     plugins: [externalizeDepsPlugin()]
@@ -14,10 +20,10 @@ export default defineConfig({
       alias: {
         '@renderer': resolve('src/renderer/src'),
         '@/hooks': resolve('src/renderer/src/hooks'),
+        '@shared': resolve('src/shared'),
         '@/assets': resolve('src/renderer/src/assets'),
         '@/store': resolve('src/renderer/src/store'),
-        '@/components': resolve('src/renderer/src/components'),
-        '@/mocks': resolve('src/renderer/src/mocks')
+        '@/components': resolve('src/renderer/src/components')
       }
     },
     plugins: [react()]

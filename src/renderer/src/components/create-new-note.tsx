@@ -11,7 +11,6 @@ export default function CreateNewNote() {
     <div>
       <button
         onClick={handleCreateNewNote}
-        contentEditable="true"
         className="flex gap-2 text-sm font-mono items-center justify-between hover:bg-[#4a4e585a] px-2 py-1 rounded-sm w-full"
       >
         New Note

@@ -28,7 +28,7 @@ const selectedNoteAtomAsync = atom(async (get) => {
   }
 })
 
-export const editAtomNote = atom(null, async (get, set, old: string, newFilename: string) => {
+export const editAtomNote = atom(null, async (_, set, old: string, newFilename: string) => {
   const newPath = await window.electronAPI.editNote(old, newFilename)
 
   set(notesAtom, async (prevNotes) =>

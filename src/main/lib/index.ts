@@ -4,9 +4,10 @@ import { ensureDir, readdir, stat, readFile, writeFile, remove, rename } from 'f
 import path from 'path'
 import welcomeFile from '../../../resources/welcome.md?asset'
 import { NoteInfoType } from '../../shared/types'
+import { homedir } from 'os'
 
 const getDir = () => {
-  return `${path.resolve(process.cwd())}/notes`
+  return `${homedir}/notes`
 }
 
 export const getNotes = async () => {

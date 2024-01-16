@@ -5,5 +5,5 @@ export const formateDate = (date: number) => {
     timeZone: 'UTC'
   }
 
-  return new Intl.DateTimeFormat(window.electronAPI.locale, dateTimeOptions).format(date)
+  return new Intl.DateTimeFormat(window.navigator.language, dateTimeOptions).format(date)
 }

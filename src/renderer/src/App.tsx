@@ -13,7 +13,7 @@ function App(): JSX.Element {
           <CreateNewNote />
           <NoteList />
         </Sidebar>
-        <section className="flex-1 p-4 border-l border-white/20  overflow-y-auto overflow-hidden scrollbar">
+        <section className="flex-1 p-4 border-l border-white/20 overflow-y-auto overflow-hidden scrollbar">
           <MDXEditor />
         </section>
       </main>

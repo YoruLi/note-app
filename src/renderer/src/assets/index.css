@@ -4,15 +4,18 @@
 
 @layer base {
   :root {
-    --background: #26282e;
-    --primary: #9feaf9;
-    --mdx: #c7d6dd;
+    --background: #161617;
+    --primary: rgb(194, 194, 194);
+    --mdx: #979595;
   }
 }
 
 @layer base {
   body {
-    @apply !bg-background text-primary overflow-hidden;
+    --app-bg: hsl(0, 0%, 8.5%);
+    background: radial-gradient(circle, rgba(21, 21, 22, 0.9) 0, var(--app-bg) 100%);
+    overflow: hidden;
+    color: var(--primary);
   }
 }
 
@@ -25,7 +28,7 @@
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  @apply border-2 border-transparent border-solid bg-slate-500/50 bg-clip-content;
+  @apply border-2 border-transparent border-solid bg-white/20 bg-clip-content;
 }
 
 .scrollbar::-webkit-scrollbar-track {

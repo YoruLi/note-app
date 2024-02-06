@@ -1,13 +1,12 @@
-import { dialog } from 'electron'
+import { app, dialog } from 'electron'
 
 import { ensureDir, readdir, stat, readFile, writeFile, remove, rename } from 'fs-extra'
 import path from 'path'
 import welcomeFile from '../../../resources/welcome.md?asset'
 import { NoteInfoType } from '../../shared/types'
-import { homedir } from 'os'
 
 const getDir = () => {
-  return `${homedir}/notes`
+  return `${path.join(app.getPath('desktop'), 'notes')}`
 }
 
 export const getNotes = async () => {
@@ -59,17 +58,27 @@ export const createNote = async () => {
     })
     return false
   }
-
   await writeFile(filePath, '')
-
   return name
 }
 
-export const editNote = async (oldFilname: string, newFilename: string) => {
+export const editNote = async (oldFilename: string) => {
   const cwd = getDir()
-  await rename(`${cwd}/${oldFilname}.md`, `${cwd}/${newFilename}.md`)
 
-  return newFilename
+  const { filePath, canceled } = await dialog.showSaveDialog({
+    title: 'Edit note',
+    defaultPath: path.join(cwd, `${oldFilename}.md`),
+    buttonLabel: 'Save Changes',
+    properties: ['showOverwriteConfirmation'],
+    filters: [{ name: 'Markdown', extensions: ['md'] }]
+  })
+
+  if (canceled || !filePath) {
+    return false
+  }
+
+  await rename(path.join(cwd, `${oldFilename}.md`), filePath)
+  return filePath.split('\\').at(-1)?.replace('.md', '')
 }
 export const deleteNote = async (filename: string) => {
   const cwd = getDir()
@@ -97,7 +106,6 @@ export const writeNote = async (filename: string, content: string) => {
 
 export const readNote = async (filename: string) => {
   const cwd = getDir()
-
   return readFile(`${cwd}/${filename}.md`, { encoding: 'utf8' })
 }
 

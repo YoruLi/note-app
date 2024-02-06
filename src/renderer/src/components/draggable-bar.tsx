@@ -1,7 +1,9 @@
+import { NotePadIcon } from './svgs'
+
 export default function DraggableBar() {
   return (
-    <header className="sticky top-0 px-4 h-8 w-full bg-transparent border-b border-white/20 cursor-pointer">
-      <code> Note app</code>
+    <header className="sticky top-0 flex items-center px-4 min-h-8 w-full bg-transparent border-b border-white/10 cursor-pointer overflow-hidden">
+      <NotePadIcon />
     </header>
   )
 }

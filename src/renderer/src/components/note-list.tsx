@@ -2,13 +2,12 @@ import { useNote } from '@renderer/hooks/useNote'
 import DeleteNote from './delete-note'
 import { useState } from 'react'
 import { formateDate } from '@shared/utils'
-import { useSetAtom } from 'jotai'
-import { editAtomNote } from '@renderer/store'
+import EditNote from './edit-note'
 
 export const NoteList = () => {
   const { notes, handleSelectNote, selectedNoteIndex } = useNote()
   const [isHovered, setIsHovered] = useState<number | null>(null)
-  const editNote = useSetAtom(editAtomNote)
+
   if (!notes) return null
 
   return (
@@ -28,23 +27,24 @@ export const NoteList = () => {
                 setIsHovered(null)
               }}
               key={note.title}
-              className={`flex relative flex-col px-2 py-2 rounded-sm mt-1  transition-all cursor-pointer ${selectedNoteIndex === index ? 'bg-[#4a4e585a]' : 'hover:bg-[#4a4e585a]'} `}
+              className={`flex relative flex-col px-2 py-2 rounded-sm mt-1  transition-all cursor-pointer ${selectedNoteIndex === index ? 'bg-[#383b415a]' : 'hover:bg-[#2f31365a]'} `}
               onClick={() => handleSelectNote(index)}
             >
-              <div className="flex justify-between gap-1 truncate ">
+              <div className="flex justify-between gap-1 truncate">
                 <span
-                  onBlur={async (e) => {
-                    const text = e.currentTarget.textContent
-                    await editNote(note.title, text as string)
-                  }}
-                  className="first-letter:uppercase font-mono text-nowrap outline-none overflow-hidden text-ellipsis "
-                  contentEditable
+                  // onDoubleClick={async () => {
+                  //   await editNote(note.title)
+                  // }}
+                  className="font-mono text-nowrap outline-none overflow-hidden select-none"
                 >
                   {note.title}
                 </span>
                 {(selectedNoteIndex === index ||
                   (selectedNoteIndex !== index && isHovered === index)) && (
-                  <DeleteNote filename={note.title} />
+                  <div className="flex gap-2 items-center">
+                    <EditNote oldFileName={note.title} />
+                    <DeleteNote filename={note.title} />
+                  </div>
                 )}
               </div>
               <code>{formateDate(note.lastEditTime)}</code>

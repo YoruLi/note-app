@@ -9,11 +9,11 @@ function App(): JSX.Element {
     <>
       <DraggableBar />
       <main className="flex flex-row h-screen">
-        <Sidebar className="p-4 ">
+        <Sidebar className="space-y-1">
           <CreateNewNote />
           <NoteList />
         </Sidebar>
-        <section className="flex-1 p-4 border-l border-white/20 overflow-y-auto overflow-hidden scrollbar">
+        <section className="flex-1 p-4 border-l border-white/10 overflow-y-auto overflow-hidden scrollbar">
           <MDXEditor />
         </section>
       </main>
